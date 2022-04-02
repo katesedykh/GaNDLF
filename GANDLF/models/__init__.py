@@ -31,6 +31,7 @@ from .imagenet_vgg import (
 from .sdnet import SDNet
 from .MSDNet import MSDNet
 from .brain_age import brainage
+from .trans_unet import TransUNet
 
 # defining dict for models - key is the string and the value is the transform object
 global_models_dict = {
@@ -75,6 +76,7 @@ global_models_dict = {
     "msdnet": MSDNet,
     "brain_age": brainage,
     "sdnet": SDNet,
+    "transunet": TransUNet,
     "resnet18": resnet18,
     "resnet34": resnet34,
     "resnet50": resnet50,
