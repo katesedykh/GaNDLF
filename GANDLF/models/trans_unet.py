@@ -87,7 +87,7 @@ class Embeddings(ModelBase):
         img_size = _pair(img_size)
 
 
-        small_patch_size = _pair((self.base_filters, self.base_filters)) #16,16
+        small_patch_size = _pair((16, 16)) #16,16
         n_patches = (img_size[0] // small_patch_size[0]) * (img_size[1] // small_patch_size[1]) #1024
 
         self.patch_embeddings = self.Conv(in_channels=self.n_channels,
