@@ -244,11 +244,17 @@ class TransUNet(ModelBase):
             self.Conv(self.base_filters, self.n_classes, kernel_size=3, padding=1),
             nn.Identity()     #self.Upsampling(scale_factor=upsampling) if upsampling > 1        
         )
+        self.out = self.final_convolution_layer
 
     def forward(self, x):
         if x.size()[1] == 1:
             x = x.repeat(1,3,1,1)
         x, attn_weights, features = self.transformer(x)  # (B, n_patch, hidden)
         x = self.decoder(x, features)
-        logits = self.segmentation_head(x)
-        return logits
+        x = self.segmentation_head(x)
+        if not (self.out == None): 
+            if self.out == torch.nn.functional.softmax:
+                x = self.out(x, dim=1)
+            else:
+                x = self.out(x)            
+        return x
