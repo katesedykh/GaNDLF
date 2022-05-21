@@ -1,4 +1,4 @@
-from GANDLF.models.modelBase import ModelBase
+from GANDLF.utils.modelbase import get_modelbase_final_layer
 
 
 def populate_header_in_parameters(parameters, headers):
@@ -38,7 +38,7 @@ def populate_header_in_parameters(parameters, headers):
         parameters["model"]["num_channels"] = len(headers["channelHeaders"])
 
     parameters["problem_type"] = find_problem_type(
-        parameters, ModelBase(parameters).final_convolution_layer
+        parameters, get_modelbase_final_layer(parameters["model"]["final_layer"])
     )
 
     # if the problem type is classification/segmentation, ensure the number of classes are picked from the configuration
@@ -100,7 +100,6 @@ def populate_channel_keys_in_params(data_loader, parameters):
     channel_keys = []
     value_keys = []
     label_keys = []
-    print("All Keys : ", all_keys)
     for item in all_keys:
         if item.isnumeric():
             channel_keys.append(item)
