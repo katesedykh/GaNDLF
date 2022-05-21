@@ -1,5 +1,3 @@
-# Usage
-
 For any DL pipeline, the following flow needs to be performed:
 
 1. Data preparation
@@ -8,20 +6,19 @@ For any DL pipeline, the following flow needs to be performed:
 
 GaNDLF tackles all of these and the details are split in the manner explained in [the following section](#table-of-contents).
 ## Table of Contents
-- [Usage](#usage)
-  - [Table of Contents](#table-of-contents)
-  - [Preparing the Data](#preparing-the-data)
-    - [Anonymize Data](#anonymize-data)
-    - [Cleanup/Harmonize Data](#cleanupharmonize-data)
-    - [Offline Patch Extraction (for histology images only)](#offline-patch-extraction-for-histology-images-only)
-    - [Running preprocessing before training/inference](#running-preprocessing-before-traininginference)
-  - [Constructing the Data CSV](#constructing-the-data-csv)
-  - [Customize the Training](#customize-the-training)
-  - [Running GaNDLF (Training/Inference)](#running-gandlf-traininginference)
-  - [Plot the final results](#plot-the-final-results)
-    - [Multi-GPU systems](#multi-gpu-systems)
-  - [M3D-CAM usage](#m3d-cam-usage)
-  - [Examples](#examples)
+- [Table of Contents](#table-of-contents)
+- [Preparing the Data](#preparing-the-data)
+  - [Anonymize Data](#anonymize-data)
+  - [Cleanup/Harmonize Data](#cleanupharmonize-data)
+  - [Offline Patch Extraction (for histology images only)](#offline-patch-extraction-for-histology-images-only)
+  - [Running preprocessing before training/inference](#running-preprocessing-before-traininginference)
+- [Constructing the Data CSV](#constructing-the-data-csv)
+- [Customize the Training](#customize-the-training)
+- [Running GaNDLF (Training/Inference)](#running-gandlf-traininginference)
+- [Plot the final results](#plot-the-final-results)
+  - [Multi-GPU systems](#multi-gpu-systems)
+- [M3D-CAM usage](#m3d-cam-usage)
+- [Examples](#examples)
 
 ## Preparing the Data
 
@@ -178,7 +175,7 @@ Please see a [sample](https://github.com/CBICA/GaNDLF/blob/master/samples/config
 - [Regression example](https://github.com/CBICA/GaNDLF/blob/master/samples/config_regression.yaml)
 - [Classification example](https://github.com/CBICA/GaNDLF/blob/master/samples/config_classification.yaml)
 
-**Note**: Ensure that the configuration has valid syntax by checking the file using any YAML validator such as https://yamlchecker.com/ or https://yamlvalidator.com/ **before** trying to train.
+**Note**: Ensure that the configuration has valid syntax by checking the file using any YAML validator such as [yamlchecker.com](https://yamlchecker.com/) or [yamlvalidator.com](https://yamlvalidator.com/) **before** trying to train.
 
 [Back To Top &uarr;](#table-of-contents)
 

@@ -27,6 +27,7 @@ parameter_defaults = {
     "track_memory_usage": False,  # default memory tracking
     "print_rgb_label_warning": True,  # default memory tracking
     "data_postprocessing": {},  # default data postprocessing
+    "grid_aggregator_overlap": "crop",  # default grid aggregator overlap strategy
 }
 
 ## dictionary to define string defaults for appropriate options
@@ -99,14 +100,16 @@ def parseConfig(config_file_path, version_check_flag=True):
     This function parses the configuration file and returns a dictionary of parameters.
 
     Args:
-        config_file_path (str): The filename of the configuration file.
+        config_file_path (Union[str, dict]): The filename of the configuration file.
         version_check_flag (bool, optional): Whether to check the version in configuration file. Defaults to True.
 
     Returns:
         dict: The parameter dictionary.
     """
-    with open(config_file_path) as f:
-        params = yaml.safe_load(f)
+    params = config_file_path
+    if not isinstance(config_file_path, dict):
+        with open(config_file_path) as f:
+            params = yaml.safe_load(f)
 
     if version_check_flag:  # this is only to be used for testing
         if not ("version" in params):
@@ -456,6 +459,23 @@ def parseConfig(config_file_path, version_check_flag=True):
                 elif key in thresholdOrClipDict:
                     sys.exit("Use only 'threshold' or 'clip', not both")
 
+                if key == "histogram_matching":
+                    if params["data_preprocessing"][key] is not False:
+                        if not (isinstance(params["data_preprocessing"][key], dict)):
+                            params["data_preprocessing"][key] = {}
+
+                if key == "histogram_equalization":
+                    if params["data_preprocessing"][key] is not False:
+                        # if histogram equalization is enabled, call histogram_matching
+                        params["data_preprocessing"]["histogram_matching"] = {}
+
+                if key == "adaptive_histogram_equalization":
+                    if params["data_preprocessing"][key] is not False:
+                        # if histogram equalization is enabled, call histogram_matching
+                        params["data_preprocessing"]["histogram_matching"] = {
+                            "target": "adaptive"
+                        }
+
     if "model" in params:
 
         if not (isinstance(params["model"], dict)):
@@ -606,5 +626,23 @@ def parseConfig(config_file_path, version_check_flag=True):
         temp_dict = {}
         temp_dict["type"] = params["optimizer"]
         params["optimizer"] = temp_dict
+
+    # initialize defaults for inference mechanism
+    inference_mechanism = {
+        "grid_aggregator_overlap": "crop",
+        "patch_overlap": 0,
+    }
+    initialize_inference_mechanism = False
+    if not ("inference_mechanism" in params):
+        initialize_inference_mechanism = True
+    elif not (isinstance(params["inference_mechanism"], dict)):
+        initialize_inference_mechanism = True
+    else:
+        for key in inference_mechanism:
+            if not (key in params["inference_mechanism"]):
+                params["inference_mechanism"][key] = inference_mechanism[key]
+
+    if initialize_inference_mechanism:
+        params["inference_mechanism"] = inference_mechanism
 
     return params
